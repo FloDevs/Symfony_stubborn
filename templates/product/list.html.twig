@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/list.css">
+{% endblock %}
+
+
+{% block title %}Liste des Produits{% endblock %}
+{% block body %}
+<h1>Liste des Produits</h1>
+
+<div class="filter-container">
+    <label for="priceFilter"><strong>Fourchette de prix</strong></label>
+    <select id="priceFilter" onchange="filterByPrice()">
+        <option value="{{ path('app_products') }}">Tous</option>
+        <option value="{{ path('app_products', {'priceRange': '10-29'}) }}">10 à 29€</option>
+        <option value="{{ path('app_products', {'priceRange': '30-35'}) }}">30 à 35€</option>
+        <option value="{{ path('app_products', {'priceRange': '35-50'}) }}">35 à 50€</option>
+    </select>
+</div>
+
+<div class="product-list">
+    {% if products is empty %}
+        <p>Aucun produit trouvé pour cette fourchette de prix.</p>
+    {% else %}
+        {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="/uploads/{{ product.image }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="/uploads/default.jpg" alt="Image non disponible">
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.price }} €</p>
+                </div>
+                <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn-view">VOIR</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<script>
+    function filterByPrice() {
+        let url = document.getElementById("priceFilter").value;
+        window.location.href = url;
+    }
+</script>
+
+{% endblock %}

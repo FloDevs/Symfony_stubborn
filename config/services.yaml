@@ -1,0 +1,37 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    stripe_secret_key: 'sk_test_votre_cle_secrete_ici'
+    uploads_directory: '%kernel.project_dir%/public/uploads'
+
+services:
+    # Configuration par défaut pour tous les services
+    _defaults:
+        autowire: true      # Injection automatique des dépendances
+        autoconfigure: true # Enregistrement automatique des services comme commandes, événements, etc.
+        bind:
+            $projectDir: '%kernel.project_dir%'
+
+    # Configuration spécifique pour CartService
+    App\Service\CartService:
+        arguments:
+            $requestStack: '@request_stack'
+
+    # Configuration pour StripeService
+    App\Service\StripeService:
+        arguments:
+            $secretKey: '%env(STRIPE_SECRET_KEY)%'
+
+    # Configuration générale pour l'application
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

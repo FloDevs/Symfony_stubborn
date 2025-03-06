@@ -1,0 +1,49 @@
+security:
+    # Hashage des mots de passe
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Fournisseur d'utilisateurs basé sur l'entité User
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    # Configuration des firewalls
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)$
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+            entry_point: App\Security\LoginFormAuthenticator
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_home  # Redirection après connexion
+            logout:
+                path: app_logout
+                target: app_login  # Redirection après déconnexion
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 semaine
+                path: /
+            custom_authenticator: App\Security\LoginFormAuthenticator
+
+    # Contrôle d'accès par rôle
+    access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/cart, roles: [ROLE_USER, ROLE_ADMIN] }
+    - { path: ^/product, roles: [ROLE_USER, ROLE_ADMIN] }
+    - { path: ^/products, roles: [ROLE_USER, ROLE_ADMIN] }
+    - { path: ^/profile, roles: [ROLE_USER, ROLE_ADMIN] }
+
+        
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'

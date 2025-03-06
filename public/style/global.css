@@ -1,0 +1,78 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+}
+
+header {
+  height: 10rem;
+}
+.header-container {
+  height: 8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 1rem;
+}
+
+.header-container img {
+  height: 5rem;
+  width: 15rem;
+  margin-left: 2rem;
+}
+
+.logo-slogan p {
+  margin: 0;
+  text-align: center;
+  color: red;
+  padding-left: 3rem;
+}
+
+nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 1rem 1rem;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.active {
+  font-weight: bold;
+  color: red;
+  text-decoration: underline;
+}
+
+footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+}
+
+.footer-container p {
+  margin: 1rem 0;
+}
+
+.footer-container a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+.footer-container a:hover {
+  text-decoration: underline;
+}

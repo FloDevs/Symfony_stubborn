@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/back-office.css">
+{% endblock %}
+
+{% block title %}Backoffice - Administration des Sweat-shirts{% endblock %}
+
+{% block body %}
+
+<h1>Backoffice - Gestion des Sweat-shirts</h1>
+
+{% for message in app.flashes('success') %}
+    <p class="success-message">{{ message }}</p>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <p class="error-message">{{ message }}</p>
+{% endfor %}
+
+<div class="product-form add-form">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="add">
+        <div class="product-row add-row">
+            <div class="product-image empty"></div>
+            <div class="input-group">
+                <label>Nom</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="input-group">
+                <label>Prix (€)</label>
+                <input type="number" name="price" step="0.01" required>
+            </div>
+            {% for size in ['XS', 'S', 'M', 'L', 'XL'] %}
+                <div class="input-group">
+                    <label>Stock {{ size }}</label>
+                    <input type="number" name="stock[{{ size }}]" min="0" value="2">
+                </div>
+            {% endfor %}
+            <button type="submit">Ajouter</button>
+        </div>
+    </form>
+</div>
+
+<div class="product-list">
+    {% for product in products %}
+        <div class="product-form">
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="id" value="{{ product.id }}">
+                <div class="product-row">
+                    <div class="product-image">
+                        {% if product.image %}
+                            <img src="/uploads/{{ product.image }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="empty"></div>
+                        {% endif %}
+                    </div>
+                    <div class="input-group">
+                        <label>Nom</label>
+                        <input type="text" name="name" value="{{ product.name }}">
+                    </div>
+                    <div class="input-group">
+                        <label>Prix (€)</label>
+                        <input type="number" name="price" value="{{ product.price }}" step="0.01" required>
+                    </div>
+                    {% for size, quantity in product.stock %}
+                        <div class="input-group">
+                            <label>Stock {{ size }}</label>
+                            <input type="number" name="stock[{{ size }}]" value="{{ quantity }}" min="0">
+                        </div>
+                    {% endfor %}
+                    <button type="submit">Modifier</button>
+                </div>
+            </form>
+            <form method="post">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="{{ product.id }}">
+                <button type="submit" class="delete">Supprimer</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

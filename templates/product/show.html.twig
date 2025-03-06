@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/show.css">
+{% endblock %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+<div class="product-container">
+    
+    <div class="product-image">
+            <img src="/uploads/{{ product.image }}" alt="{{ product.name }}">
+    </div>
+
+    <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <p><strong>Prix :</strong> {{ product.price }} €</p>
+
+        <form method="post" action="{{ path('cart_add', {'id': product.id}) }}">
+            
+            <label for="size"><strong>Sélectionnez une taille :</strong></label>
+            <select name="size" id="size" required>
+                {% for size, quantity in product.stock %}
+                    {% if quantity > 0 %}
+                        <option value="{{ size }}">{{ size }}</option>
+                    {% else %}
+                        <option value="{{ size }}" disabled>{{ size }} (Rupture de stock)</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <div class="product-buttons">
+                <button type="submit" class="add-to-cart">AJOUTER AU PANIER</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
