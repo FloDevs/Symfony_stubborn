@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/home.css">
+{% endblock %}
+
+{% block body %}
+
+<h1>Bienvenue chez Stubborn !</h1>
+
+<section class="about">
+    <h2>À propos de nous</h2>
+    <p>Stubborn est une marque de sweat-shirts moderne et stylée. Nous croyons qu'il ne faut jamais faire de compromis sur votre look !</p>
+</section>
+
+<section class="featured-products">
+    <h2>Sweat-shirts en vedette</h2>
+    <ul class="product-list">
+        {% for product in featuredProducts %}
+            <li class="product-card">
+                <img src="/uploads/{{ product.image }}" alt="{{ product.name }}">
+                <div class="product-info">
+                    <div class="name-price">
+                    <p class="product-name">{{ product.name }}</p>
+                    <p class="product-price">{{ product.price }} €</p>
+                    </div>
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary">Voir</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/register.css">
+{% endblock %}
+
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="register-container">
+    <h1>S'inscrire</h1>
+
+    {# Affichage des messages flash pour les erreurs ou succès #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="form-error-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Formulaire d'inscription #}
+    {{ form_start(registrationForm) }}
+
+    <div>
+        {{ form_label(registrationForm.name, 'Nom utilisateur') }}
+        {{ form_widget(registrationForm.name) }}
+        {{ form_errors(registrationForm.name) }}
+    </div>
+
+    <div>
+        {{ form_label(registrationForm.email, 'Adresse mail') }}
+        {{ form_widget(registrationForm.email) }}
+        {{ form_errors(registrationForm.email) }}
+    </div>
+
+    <div>
+        {{ form_label(registrationForm.deliveryAddress, 'Adresse de livraison (facultative)') }}
+        {{ form_widget(registrationForm.deliveryAddress) }}
+        {{ form_errors(registrationForm.deliveryAddress) }}
+    </div>
+
+    <div>
+        {{ form_label(registrationForm.plainPassword.first, 'Mot de passe') }}
+        {{ form_widget(registrationForm.plainPassword.first) }}
+        {{ form_errors(registrationForm.plainPassword.first) }}
+    </div>
+
+    <div>
+        {{ form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe') }}
+        {{ form_widget(registrationForm.plainPassword.second) }}
+        {{ form_errors(registrationForm.plainPassword.second) }}
+    </div>
+
+
+    <div>
+        {{ form_widget(registrationForm.submit) }}
+    </div>
+
+    {{ form_end(registrationForm) }}
+
+    <a href="{{ path('app_login') }}" class="login-link">Déjà un compte ? Connectez-vous ici.</a>
+</div>
+{% endblock %}

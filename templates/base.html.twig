@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Stubborn Boutique{% endblock %}</title>
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-slogan">
+                <img src="/uploads/Logo.png" alt="Logo">
+                <p>Don't compromise on your look</p>
+            </div>
+            <nav>
+                <ul>
+                    <li class="{% if app.request.get('_route') == 'app_home' %}active{% endif %}">
+                        <a href="{{ path('app_home') }}">Accueil</a>
+                    </li>
+                    {% if app.user %}
+                        <li class="{% if app.request.get('_route') == 'app_products' %}active{% endif %}">
+                            <a href="{{ path('app_products') }}">Boutique</a>
+                        </li>
+                        <li class="{% if app.request.get('_route') == 'cart_show' %}active{% endif %}">
+                            <a href="{{ path('cart_show') }}">Panier</a>
+                        </li>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="{% if app.request.get('_route') == 'admin_product_index' %}active{% endif %}">
+                                <a href="{{ path('admin_product_index') }}">Admin</a>
+                            </li>
+                        {% endif %}
+
+                        <li>
+                            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        </li>
+                    {% else %}
+                        <li class="{% if app.request.get('_route') == 'app_login' %}active{% endif %}">
+                            <a href="{{ path('app_login') }}">Se connecter</a>
+                        </li>
+                        <li class="{% if app.request.get('_route') == 'app_register' %}active{% endif %}">
+                            <a href="{{ path('app_register') }}">S'inscrire</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+
+    <footer>
+    <div class="footer-container">
+        <p><strong>Nom de la société :</strong> Stubborn</p>
+        <p><strong>Adresse :</strong> Piccadilly Circus, London W1J 0DA, Royaume-Uni</p>
+        <p><strong>Adresse de contact :</strong> <a href="mailto:stubborn@blabla.com">stubborn@blabla.com</a></p>
+    </div>
+    </footer>
+
+</body>
+</html>

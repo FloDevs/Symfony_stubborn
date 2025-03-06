@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/style/cart.css">
+{% endblock %}
+
+{% block body %}
+<div class="cart-container">
+    <h1>Votre Panier</h1>
+
+    <ul>
+        {% for item in cart %}
+            <li class="cart-item">
+                <div class="cart-image">
+                    <img src="/uploads/{{ item.image }}" >
+                </div>
+                <div class="cart-info">
+                    <h2>Nom : {{ item.product.name }}</h2>
+                    <p>Prix : {{ item.product.price }} €</p>
+                    <p>Taille : {{ item.size }}</p>
+                    <p>Quantité : {{ item.quantity }}  
+                       => Sous-total : {{ item.itemTotal }} €</p>
+                </div>
+                <div class="cart-remove">
+                    <form method="post" 
+                          action="{{ path('cart_remove', {
+                              'productId': item.product.id, 
+                              'size': item.size
+                          }) }}">
+                        <button type="submit">RETIRER DU PANIER</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="cart-footer">
+        <div class="cart-total">
+            TOTAL : {{ total }} €
+        </div>
+
+        <form method="post" action="{{ path('cart_checkout') }}">
+            <button type="submit" class="finalize-order">FINALISER MA COMMANDE</button>
+        </form>
+
+        <a href="{{ path('app_products') }}" class="continue-shopping">
+            CONTINUER MES ACHATS
+        </a>
+    </div>
+</div>
+{% endblock %}
