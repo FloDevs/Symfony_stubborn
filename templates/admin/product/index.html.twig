@@ -22,7 +22,10 @@
     <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="add">
         <div class="product-row add-row">
-            <div class="product-image empty"></div>
+            <div class="product-image">
+                <label for="image">Photos:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
             <div class="input-group">
                 <label>Nom</label>
                 <input type="text" name="name" required>

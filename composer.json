@@ -78,6 +78,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.0",
+        "phpunit/phpunit": "^12.0",
         "symfony/maker-bundle": "^1.62.1"
     }
 }
